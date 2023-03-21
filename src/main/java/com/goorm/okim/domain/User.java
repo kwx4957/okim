@@ -2,15 +2,22 @@ package com.goorm.okim.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
+@Getter
 @DynamicInsert
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
+    private String profileImage;
+    @Column
+    @NotNull
+    private String password;
     @Column
     private String nick;
     @Column
