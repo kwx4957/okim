@@ -32,4 +32,7 @@ public class User {
     @Column
     private String githubId;
 
+    public boolean isActive() {
+        return !isWithdrawl;
+    }
 }
