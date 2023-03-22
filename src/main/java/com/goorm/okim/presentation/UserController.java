@@ -26,4 +26,10 @@ public class UserController {
     public ResponseEntity<?> existEmail(@PathVariable("email") String email){
         return userService.existEmail(email);
     }
+
+    @GetMapping("/nickname/{nickname}")
+    public ResponseEntity<?> existsNickname(@PathVariable("nickname") String nickname){
+        return userService.existNickname(nickname);
+    }
+
 }

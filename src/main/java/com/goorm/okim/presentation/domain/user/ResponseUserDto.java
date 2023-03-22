@@ -14,7 +14,7 @@ public class ResponseUserDto {
     private String selfDesc;
 
     public Object from(User user){
-        this.ninkname = user.getNick();
+        this.ninkname = user.getNickname();
         this.Organization = null;
         this.githubId = user.getGithubId();
         this.profileImage = user.getProfileImage();
