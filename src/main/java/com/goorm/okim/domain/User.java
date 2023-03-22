@@ -17,6 +17,9 @@ public class User {
     private String profileImage;
     @Column
     @NotNull
+    private String email;
+    @Column
+    @NotNull
     private String password;
     @Column
     private String nick;

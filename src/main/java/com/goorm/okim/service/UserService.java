@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService {
@@ -30,6 +31,20 @@ public class UserService {
        }
 
        return Response.success(new ResponseUserDto().from(user.get()));
+    }
+
+    public ResponseEntity<?> existEmail(String email){
+        //TODO 유효성 검사 작동하지 않음
+        if(!validateEmail(email)){
+            Response.failBadRequest(406,"이메일 형식이 맞지 않습니다");
+        }
+
+        Boolean existEmail = userRepository.existsByEmail(email);
+        return Response.success(existEmail);
+    }
+
+    private boolean validateEmail(String email){
+        return Pattern.compile("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}").matcher(email).matches();
     }
 
 
