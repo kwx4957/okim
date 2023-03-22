@@ -1,11 +1,9 @@
 package com.goorm.okim.presentation;
 
 import com.goorm.okim.service.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -32,4 +30,10 @@ public class UserController {
         return userService.existNickname(nickname);
     }
 
+    @ResponseBody
+    @PutMapping(value = "/user/{userId}")
+    public ResponseEntity<?> updateUserProfile(@PathVariable("userId") long userId){
+
+        return userService.updateUserProfile(userId);
+    }
 }

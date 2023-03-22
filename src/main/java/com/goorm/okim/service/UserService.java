@@ -52,5 +52,10 @@ public class UserService {
         return Pattern.compile("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}").matcher(email).matches();
     }
 
+    public ResponseEntity<?> updateUserProfile(long userId){
+
+        return Response.success(1);
+    }
+
 
 }
