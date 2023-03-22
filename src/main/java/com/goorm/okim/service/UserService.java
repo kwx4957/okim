@@ -33,6 +33,11 @@ public class UserService {
        return Response.success(new ResponseUserDto().from(user.get()));
     }
 
+    public ResponseEntity<?> existNickname(String nickname){
+        Boolean existNickname = userRepository.existsByNickname(nickname);
+        return Response.success(existNickname);
+    }
+
     public ResponseEntity<?> existEmail(String email){
         //TODO 유효성 검사 작동하지 않음
         if(!validateEmail(email)){

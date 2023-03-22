@@ -22,7 +22,7 @@ public class User {
     @NotNull
     private String password;
     @Column
-    private String nick;
+    private String nickname;
     @Column
     private String selfDesc;
     @NotNull
