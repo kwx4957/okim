@@ -17,10 +17,12 @@ public class User {
     private String profileImage;
     @Column
     @NotNull
+    private String email;
+    @Column
+    @NotNull
     private String password;
-
-    @Column(name = "nickname")
-    private String nick;
+    @Column
+    private String nickname;
     @Column
     private String selfDesc;
     @NotNull
