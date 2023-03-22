@@ -18,7 +18,8 @@ public class User {
     @Column
     @NotNull
     private String password;
-    @Column
+
+    @Column(name = "nickname")
     private String nick;
     @Column
     private String selfDesc;
@@ -29,4 +30,7 @@ public class User {
     @Column
     private String githubId;
 
+    public boolean isActive() {
+        return !isWithdrawl;
+    }
 }
