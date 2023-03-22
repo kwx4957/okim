@@ -23,7 +23,8 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                     .authorizeHttpRequests()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/groupname").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/user/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/user/**").authenticated()
                         .anyRequest().permitAll()
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
