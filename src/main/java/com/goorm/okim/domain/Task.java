@@ -1,9 +1,12 @@
 package com.goorm.okim.domain;
 
+import com.goorm.okim.common.BaseEntity;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
-public class Task {
+@NoArgsConstructor
+public class Task extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
