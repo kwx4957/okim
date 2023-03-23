@@ -3,9 +3,12 @@ package com.goorm.okim.service;
 import com.goorm.okim.common.Response;
 import com.goorm.okim.domain.User;
 import com.goorm.okim.infra.repository.UserRepository;
+import com.goorm.okim.presentation.domain.S3FileDto;
+import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
 import com.goorm.okim.presentation.domain.user.ResponseUserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Optional;
@@ -15,8 +18,11 @@ import java.util.regex.Pattern;
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    private final AWSService awsService;
+
+    public UserService(UserRepository userRepository, AWSService awsService) {
         this.userRepository = userRepository;
+        this.awsService = awsService;
     }
 
     public ResponseEntity<?> getUserTask(long userId) {
@@ -52,9 +58,19 @@ public class UserService {
         return Pattern.compile("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}").matcher(email).matches();
     }
 
-    public ResponseEntity<?> updateUserProfile(long userId){
+    public ResponseEntity<?> updateUserProfile(long userId, RequestUpdateUserDto userDto, MultipartFile file){
+        Optional<User> user = userRepository.findById(userId);
 
-        return Response.success(1);
+        if(user.isEmpty()){
+            return Response.failNotFound(404,"해당 유저는 없는 유저입니다");
+        }
+
+        S3FileDto s3FileDto = awsService.uploadFiles(file);
+
+        user.get().update(userDto,s3FileDto.getUploadFileUrl());
+
+        userRepository.save(user.get());
+        return Response.success("Update Success");
     }
 
 
