@@ -1,7 +1,9 @@
 package com.goorm.okim.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.goorm.okim.presentation.domain.task.TaskCreateResponse;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Data
@@ -69,4 +71,11 @@ public class Response {
         return ResponseEntity.badRequest().body(body);
     }
 
+    public static ResponseEntity<?> createdWithBody(Object data) {
+        Response body = new Response();
+        body.code = 0;
+        body.message = "success";
+        body.data = data;
+        return ResponseEntity.status(HttpStatus.CREATED).body(body);
+    }
 }
