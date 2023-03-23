@@ -2,10 +2,12 @@ package com.goorm.okim.domain;
 
 import com.goorm.okim.common.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Task extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,4 +18,14 @@ public class Task extends BaseEntity {
     private boolean isDeleted;
     @Column
     private int progress;
+
+    public static Task create(long userId) {
+        Task task = new Task();
+        task.userId = userId;
+        return task;
+    }
+
+    public long getId() {
+        return id;
+    }
 }
