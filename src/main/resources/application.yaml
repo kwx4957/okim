@@ -1,1 +1,20 @@
+spring:
+  devtools:
+    add-properties: true
+  datasource:
+    url: "jdbc:mysql://database-1.cdhkf17ifeqy.ap-northeast-2.rds.amazonaws.com:3306/fivekim"
+    username: admin
+    password: goormadmin
+  jpa:
+    hibernate:
+      ddl-auto: 'none'
+    show-sql: true
+    properties:
+      format_sql: true
+      use_sql_comments: true
 
+# jwt secret key
+jwt:
+  secret-key: 4D635166546A576E5A7234753778214125442A472D4B614E645267556B587032
+  access-token-exp: 360000
+  refresh-token-exp: 2592000

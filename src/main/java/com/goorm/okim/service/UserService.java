@@ -2,28 +2,29 @@ package com.goorm.okim.service;
 
 import com.goorm.okim.common.Response;
 import com.goorm.okim.domain.User;
+import com.goorm.okim.exception.BusinessLogicException;
+import com.goorm.okim.exception.ErrorCodeMessage;
 import com.goorm.okim.infra.repository.UserRepository;
 import com.goorm.okim.presentation.domain.S3FileDto;
 import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
+import com.goorm.okim.presentation.domain.user.SignupRequest;
 import com.goorm.okim.presentation.domain.user.ResponseUserDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
-
     private final AWSService awsService;
-
-    public UserService(UserRepository userRepository, AWSService awsService) {
-        this.userRepository = userRepository;
-        this.awsService = awsService;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public ResponseEntity<?> getUserTask(long userId) {
        Optional<User> user = userRepository.findById(userId);
@@ -74,4 +75,16 @@ public class UserService {
     }
 
 
+    public void signUp(SignupRequest signupRequest) {
+        checkEmailUnique(signupRequest.getEmail());
+        User user = User.from(signupRequest, passwordEncoder);
+        userRepository.save(user);
+    }
+
+    private void checkEmailUnique(String email) {
+        Boolean exists = userRepository.existsByEmail(email);
+        if (Boolean.TRUE.equals(exists)) {
+            throw new BusinessLogicException(ErrorCodeMessage.USER_DUPLICATE_EMAIL);
+        }
+    }
 }

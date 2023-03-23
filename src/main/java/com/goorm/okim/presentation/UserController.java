@@ -1,10 +1,12 @@
 package com.goorm.okim.presentation;
 
+import com.goorm.okim.presentation.domain.user.SignupRequest;
 import com.goorm.okim.common.Response;
 import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
 import com.goorm.okim.service.UserService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,11 +15,14 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
 @Slf4j
 public class UserController {
 
     private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getUserTask(@PathVariable("userId") long userId){
@@ -32,6 +37,12 @@ public class UserController {
     @GetMapping("/nickname/{nickname}")
     public ResponseEntity<?> existsNickname(@PathVariable("nickname") String nickname){
         return userService.existNickname(nickname);
+    }
+
+    @PostMapping("/user/signup")
+    public ResponseEntity<?> signUp(@RequestBody SignupRequest signupRequest) {
+        userService.signUp(signupRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping(value = "/user/{userId}", consumes = "multipart/form-data")

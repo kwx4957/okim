@@ -62,4 +62,11 @@ public class Response {
         return ResponseEntity.badRequest().body(body);
     }
 
+    public static ResponseEntity<Object> toFailObject(String message) {
+        Response body = new Response();
+        body.code = -1;
+        body.message = message;
+        return ResponseEntity.badRequest().body(body);
+    }
+
 }
