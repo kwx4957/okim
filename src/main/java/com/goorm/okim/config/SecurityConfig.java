@@ -25,6 +25,7 @@ public class SecurityConfig {
                     .authorizeHttpRequests()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/user/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/v1/user/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/task/**").authenticated()
                         .anyRequest().permitAll()
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
