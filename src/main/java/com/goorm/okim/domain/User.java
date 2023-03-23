@@ -1,5 +1,6 @@
 package com.goorm.okim.domain;
 
+import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
 import com.goorm.okim.presentation.domain.user.SignupRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -8,12 +9,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
+@DynamicUpdate
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +49,11 @@ public class User {
         user.nickname = signupRequest.getNickname();
         user.password = passwordEncoder.encode(signupRequest.getPassword());
         return user;
+    }
+    public void update(RequestUpdateUserDto userDto, String uploadFileUrl){
+        this.nickname = userDto.getNickname();
+        this.selfDesc = userDto.getSelfDesc();
+        this.githubId = userDto.getGithubId();
+        this.profileImage = uploadFileUrl;
     }
 }

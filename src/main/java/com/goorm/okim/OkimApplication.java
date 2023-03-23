@@ -11,5 +11,6 @@ public class OkimApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OkimApplication.class, args);
 	}
-
 }
+
+
