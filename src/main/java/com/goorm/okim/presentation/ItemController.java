@@ -33,8 +33,10 @@ public class ItemController {
     public ResponseEntity<?> deletaItem(@PathVariable("itemId") long itemId){
         return itemService.deleteItem(itemId);
     }
-//    @DeleteMapping("/items")
-//    public ResponseEntity<?> createItem(){
-//    }
+
+    @PutMapping("/items/{itemId}/done")
+    public ResponseEntity<?> revertDone(@PathVariable("itemId") long itemId){
+        return itemService.revertDone(itemId);
+    }
 
 }
