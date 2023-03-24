@@ -34,6 +34,11 @@ public class Item extends BaseEntity{
         return this;
     }
 
+    public Item revertDone(){
+        isDone = !isDone;
+        return this;
+    }
+
     @Builder
     public Item(String title, long taskId) {
         this.title = title;

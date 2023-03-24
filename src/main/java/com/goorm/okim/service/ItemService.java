@@ -35,4 +35,11 @@ public class ItemService {
         itemRepository.deleteById(itemId);
         return Response.success("success");
     }
+
+    @Transactional
+    public ResponseEntity<?> revertDone(long itemId){
+       Optional<Item> item = itemRepository.findById(itemId);
+       item.get().revertDone();
+       return Response.success("success");
+    }
 }
