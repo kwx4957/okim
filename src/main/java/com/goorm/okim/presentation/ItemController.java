@@ -24,14 +24,19 @@ public class ItemController {
         }
         return itemService.createItem(itemDto);
     }
-//    @PostMapping("/items")
-//    public ResponseEntity<?> createItem(){
-//    }
-//    @PostMapping("/items")
-//    public ResponseEntity<?> createItem(){
-//    }
-//    @DeleteMapping("/items")
-//    public ResponseEntity<?> createItem(){
-//    }
+    @PutMapping("/items/{itemId}")
+    public ResponseEntity<?> updateItem(@PathVariable("itemId") long itemId,
+                                        @RequestBody String title){
+        return itemService.updateItem(itemId,title);
+    }
+    @DeleteMapping("/items/{itemId}")
+    public ResponseEntity<?> deletaItem(@PathVariable("itemId") long itemId){
+        return itemService.deleteItem(itemId);
+    }
+
+    @PutMapping("/items/{itemId}/done")
+    public ResponseEntity<?> revertDone(@PathVariable("itemId") long itemId){
+        return itemService.revertDone(itemId);
+    }
 
 }
