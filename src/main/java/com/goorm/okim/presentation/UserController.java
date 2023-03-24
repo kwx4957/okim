@@ -3,10 +3,11 @@ package com.goorm.okim.presentation;
 import com.goorm.okim.presentation.domain.user.SignupRequest;
 import com.goorm.okim.common.Response;
 import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
+import com.goorm.okim.service.TaskService;
 import com.goorm.okim.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,8 +20,10 @@ import java.util.Objects;
 public class UserController {
 
     private final UserService userService;
+    private final TaskService taskService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TaskService taskService) {
+        this.taskService = taskService;
         this.userService = userService;
     }
 
@@ -64,5 +67,13 @@ public class UserController {
 
 
         return userService.updateUserProfile(userId,requestUpdateUserDto,file);
+    }
+
+    @GetMapping("/user/{userId}/tasks")
+    public ResponseEntity<?> getUserTasks(
+            @PathVariable long userId,
+            Pageable pageable
+    ) {
+        return Response.success(taskService.getAllTasks(userId, pageable));
     }
 }
