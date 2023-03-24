@@ -29,9 +29,10 @@ public class ItemController {
                                         @RequestBody String title){
         return itemService.updateItem(itemId,title);
     }
-//    @PostMapping("/items")
-//    public ResponseEntity<?> createItem(){
-//    }
+    @DeleteMapping("/items/{itemId}")
+    public ResponseEntity<?> deletaItem(@PathVariable("itemId") long itemId){
+        return itemService.deleteItem(itemId);
+    }
 //    @DeleteMapping("/items")
 //    public ResponseEntity<?> createItem(){
 //    }
