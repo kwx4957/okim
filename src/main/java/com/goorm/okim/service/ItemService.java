@@ -29,4 +29,10 @@ public class ItemService {
         item.get().update(title);
         return Response.success("success");
     }
+
+    @Transactional
+    public ResponseEntity<?> deleteItem(long itemId){
+        itemRepository.deleteById(itemId);
+        return Response.success("success");
+    }
 }
