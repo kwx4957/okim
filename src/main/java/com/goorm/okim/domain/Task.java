@@ -1,6 +1,8 @@
 package com.goorm.okim.domain;
 
 import com.goorm.okim.common.BaseEntity;
+import com.goorm.okim.exception.BusinessLogicException;
+import com.goorm.okim.exception.ErrorCodeMessage;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,10 +25,27 @@ public class Task extends BaseEntity {
     @Column
     private int progress;
 
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "taskId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("id asc")
     private List<Item> items = new ArrayList<>();
+
+    public void checkValidTask() {
+        checkNotDeleted();
+        checkStartedItemInserted();
+    }
+
+    private void checkStartedItemInserted() {
+        if (this.items == null || items.isEmpty()) {
+            throw new BusinessLogicException(ErrorCodeMessage.TASK_NOT_FOUND);
+        }
+    }
+
+    private void checkNotDeleted() {
+        if (this.isDeleted) {
+            throw new BusinessLogicException(ErrorCodeMessage.TASK_NOT_FOUND);
+        }
+    }
 
     public static Task create(long userId) {
         Task task = new Task();
@@ -44,5 +63,11 @@ public class Task extends BaseEntity {
             return items.get(0);
         }
         return null;
+    }
+
+    public int countCompletedItems() {
+        return (int) items.stream()
+                .filter(Item::isDone)
+                .count();
     }
 }

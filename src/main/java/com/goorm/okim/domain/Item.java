@@ -24,6 +24,7 @@ public class Item extends BaseEntity{
     @ColumnDefault("0")
     private boolean isDone;
     @Column
+    @JoinColumn(name = "task_id")
     private long taskId;
     @Column
     @CreatedDate
