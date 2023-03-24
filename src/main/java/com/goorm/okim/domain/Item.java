@@ -12,10 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicInsert
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -29,4 +28,15 @@ public class Item extends BaseEntity{
     @Column
     @CreatedDate
     private LocalDateTime finishedAt;
+
+    public Item update(String title){
+        this.title = title;
+        return this;
+    }
+
+    @Builder
+    public Item(String title, long taskId) {
+        this.title = title;
+        this.taskId = taskId;
+    }
 }

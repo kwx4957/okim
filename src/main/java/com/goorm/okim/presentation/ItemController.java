@@ -24,9 +24,11 @@ public class ItemController {
         }
         return itemService.createItem(itemDto);
     }
-//    @PostMapping("/items")
-//    public ResponseEntity<?> createItem(){
-//    }
+    @PutMapping("/items/{itemId}")
+    public ResponseEntity<?> updateItem(@PathVariable("itemId") long itemId,
+                                        @RequestBody String title){
+        return itemService.updateItem(itemId,title);
+    }
 //    @PostMapping("/items")
 //    public ResponseEntity<?> createItem(){
 //    }

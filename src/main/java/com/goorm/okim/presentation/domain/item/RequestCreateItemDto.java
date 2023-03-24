@@ -10,8 +10,8 @@ public class RequestCreateItemDto {
 
     public Item toEntity(){
         return Item.builder()
-                .title(this.title)
-                .taskId(this.taskId)
+                .title(title)
+                .taskId(taskId)
                 .build();
     }
 }
