@@ -3,6 +3,7 @@ package com.goorm.okim.presentation.domain.task;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.goorm.okim.domain.Item;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
