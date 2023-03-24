@@ -4,9 +4,9 @@ import com.goorm.okim.presentation.domain.user.SignupRequest;
 import com.goorm.okim.common.Response;
 import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
 import com.goorm.okim.service.UserService;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,5 +64,14 @@ public class UserController {
 
 
         return userService.updateUserProfile(userId,requestUpdateUserDto,file);
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity<?> sendEmailTo(@RequestBody String email) throws MessagingException {
+        if(email.isBlank()){
+            return Response.failBadRequest(-1,"이메일 값이 빈 값입니다");
+        }
+
+        return userService.sendEmailTo(email);
     }
 }
