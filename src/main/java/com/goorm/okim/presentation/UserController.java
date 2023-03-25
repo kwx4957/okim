@@ -3,11 +3,11 @@ package com.goorm.okim.presentation;
 import com.goorm.okim.presentation.domain.user.SignupRequest;
 import com.goorm.okim.common.Response;
 import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
+import com.goorm.okim.service.RedisService;
 import com.goorm.okim.service.TaskService;
 import com.goorm.okim.service.UserService;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +23,14 @@ public class UserController {
     private final UserService userService;
     private final TaskService taskService;
 
-    public UserController(UserService userService, TaskService taskService) {
+    private final RedisService redisService;
+
+    public UserController(UserService userService,
+                          TaskService taskService,
+                          RedisService redisService) {
         this.taskService = taskService;
         this.userService = userService;
+        this.redisService = redisService;
     }
 
     @GetMapping("/user/{userId}")
@@ -72,17 +77,28 @@ public class UserController {
 
     @PostMapping("/email")
     public ResponseEntity<?> sendEmailTo(@RequestBody String email) throws MessagingException {
-        if(email.isBlank()){
-            return Response.failBadRequest(-1,"이메일 값이 빈 값입니다");
+        if (email.isBlank()) {
+            return Response.failBadRequest(-1, "이메일 값이 빈 값입니다");
         }
 
         return userService.sendEmailTo(email);
-
-    @GetMapping("/user/{userId}/tasks")
-    public ResponseEntity<?> getUserTasks(
-            @PathVariable long userId,
-            Pageable pageable
-    ) {
-        return Response.success(taskService.getAllTasks(userId, pageable));
     }
+
+    @GetMapping("/email/validation")
+    public ResponseEntity<?> getKey(@RequestBody String code){
+        if (redisService.getData(code) == null){
+            return Response.failBadRequest(-1, "유효하지 않는 인증번호");
+        }
+
+        return Response.success(redisService.getData(code));
+    }
+
+//    @GetMapping("/user/{userId}/tasks")
+//    public ResponseEntity<?> getUserTasks(
+//            @PathVariable long userId,
+//            Pageable pageable
+//    ) {
+//        return Response.success(taskService.getAllTasks(userId, pageable));
+//    }
+
 }
