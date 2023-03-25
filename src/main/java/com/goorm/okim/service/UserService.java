@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final RedisService redisService;
     private final UserRepository userRepository;
     private final AWSService awsService;
     private final PasswordEncoder passwordEncoder;
@@ -96,15 +97,18 @@ public class UserService {
     }
 
     public ResponseEntity<?> sendEmailTo(String email) throws MessagingException {
+        String redisKey = createKey();
         MimeMessage message = javaMailSender.createMimeMessage();
         message.setSubject("OKim에서 보내는 인증번호입니다");
-        message.setText(createEmailText(),"UTF-8","html");
+        message.setText(createEmailText(redisKey),"UTF-8","html");
         message.addRecipients(Message.RecipientType.TO,email);
         javaMailSender.send(message);
+
+        redisService.setDataExpire(redisKey,email,60*5L);
         return Response.success("send email success");
     }
 
-    private String createEmailText(){
+    private String createEmailText(String redisKey){
         String msgg = "";
         msgg += "<div style='margin:100px;'>";
         msgg += "<h1> 안녕하세요</h1>";
@@ -116,7 +120,7 @@ public class UserService {
         msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
         msgg += "<div style='font-size:130%'>";
         msgg += "CODE : <strong>";
-        msgg += createKey() + "</strong><div><br/> ";
+        msgg += redisKey + "</strong><div><br/> ";
         msgg += "</div>";
         return msgg;
     }
@@ -141,4 +145,5 @@ public class UserService {
         }
         return key.toString();
     }
+
 }
