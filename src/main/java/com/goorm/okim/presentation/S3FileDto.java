@@ -1,4 +1,4 @@
-package com.goorm.okim.presentation.domain;
+package com.goorm.okim.presentation;
 
 import lombok.Builder;
 import lombok.Getter;

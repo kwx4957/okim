@@ -5,10 +5,10 @@ import com.goorm.okim.domain.User;
 import com.goorm.okim.exception.BusinessLogicException;
 import com.goorm.okim.exception.ErrorCodeMessage;
 import com.goorm.okim.infra.repository.UserRepository;
-import com.goorm.okim.presentation.domain.S3FileDto;
-import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
-import com.goorm.okim.presentation.domain.user.SignupRequest;
-import com.goorm.okim.presentation.domain.user.ResponseUserDto;
+import com.goorm.okim.presentation.S3FileDto;
+import com.goorm.okim.presentation.user.data.request.RequestUpdateUserDto;
+import com.goorm.okim.presentation.user.data.request.RequestSignUpDto;
+import com.goorm.okim.presentation.user.data.response.ResponseUserDto;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -83,13 +83,14 @@ public class UserService {
     }
 
 
-    public void signUp(SignupRequest signupRequest) {
-        checkEmailUnique(signupRequest.getEmail());
-        User user = User.from(signupRequest, passwordEncoder);
+    public void signUp(RequestSignUpDto requestSignUpDto) {
+        validateUniqueEmail(requestSignUpDto.getEmail());
+        // todo 최종 회원가입 이전, 인증코드 확인 유무 체크
+        User user = User.from(requestSignUpDto, passwordEncoder);
         userRepository.save(user);
     }
 
-    private void checkEmailUnique(String email) {
+    private void validateUniqueEmail(String email) {
         Boolean exists = userRepository.existsByEmail(email);
         if (Boolean.TRUE.equals(exists)) {
             throw new BusinessLogicException(ErrorCodeMessage.USER_DUPLICATE_EMAIL);

@@ -1,4 +1,4 @@
-package com.goorm.okim.presentation.domain.task;
+package com.goorm.okim.presentation.task.data;
 
 public enum ItemStatus {
     DONE, UNDONE;

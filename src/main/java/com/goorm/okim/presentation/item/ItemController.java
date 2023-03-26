@@ -1,9 +1,8 @@
-package com.goorm.okim.presentation;
+package com.goorm.okim.presentation.item;
 
 
 import com.goorm.okim.common.Response;
 import com.goorm.okim.jwt.Login;
-import com.goorm.okim.presentation.domain.item.RequestCreateItemDto;
 import com.goorm.okim.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

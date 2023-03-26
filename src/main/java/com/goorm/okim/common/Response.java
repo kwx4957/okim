@@ -1,7 +1,6 @@
 package com.goorm.okim.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.goorm.okim.presentation.domain.task.TaskCreateResponse;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

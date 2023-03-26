@@ -1,13 +1,15 @@
-package com.goorm.okim.presentation;
+package com.goorm.okim.presentation.user;
 
-import com.goorm.okim.presentation.domain.user.SignupRequest;
+import com.goorm.okim.presentation.user.data.request.RequestSignUpDto;
 import com.goorm.okim.common.Response;
-import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
+import com.goorm.okim.presentation.user.data.request.RequestUpdateUserDto;
 import com.goorm.okim.service.RedisService;
 import com.goorm.okim.service.TaskService;
 import com.goorm.okim.service.UserService;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +51,8 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignupRequest signupRequest) {
-        userService.signUp(signupRequest);
+    public ResponseEntity<?> signUp(@RequestBody @Valid RequestSignUpDto requestSignUpDTO) {
+        userService.signUp(requestSignUpDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -80,25 +82,23 @@ public class UserController {
         if (email.isBlank()) {
             return Response.failBadRequest(-1, "이메일 값이 빈 값입니다");
         }
-
         return userService.sendEmailTo(email);
     }
 
     @GetMapping("/email/validation")
-    public ResponseEntity<?> getKey(@RequestBody String code){
-        if (redisService.getData(code) == null){
+    public ResponseEntity<?> getKey(@RequestBody String code) {
+        if (redisService.getData(code) == null) {
             return Response.failBadRequest(-1, "유효하지 않는 인증번호");
         }
 
         return Response.success(redisService.getData(code));
     }
-
-//    @GetMapping("/user/{userId}/tasks")
-//    public ResponseEntity<?> getUserTasks(
-//            @PathVariable long userId,
-//            Pageable pageable
-//    ) {
-//        return Response.success(taskService.getAllTasks(userId, pageable));
-//    }
+    @GetMapping("/user/{userId}/tasks")
+    public ResponseEntity<?> getUserTasks(
+            @PathVariable long userId,
+            Pageable pageable
+    ) {
+        return Response.success(taskService.getUserTasks(userId, pageable));
+    }
 
 }
