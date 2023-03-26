@@ -1,10 +1,12 @@
-package com.goorm.okim.presentation.task.data.dto;
+package com.goorm.okim.presentation.task.data.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.goorm.okim.domain.Item;
 import com.goorm.okim.domain.Task;
+import com.goorm.okim.presentation.task.data.dto.ItemDto;
+import com.goorm.okim.presentation.task.data.dto.TaskUserInfoDto;
 import lombok.*;
 
 import java.time.LocalDateTime;

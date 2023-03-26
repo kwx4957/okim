@@ -10,7 +10,7 @@ import com.goorm.okim.infra.repository.OrganizationRepository;
 import com.goorm.okim.infra.repository.TaskRepository;
 import com.goorm.okim.presentation.item.ResponseTasksDto;
 import com.goorm.okim.presentation.task.data.response.ResponseGroupTasksDto;
-import com.goorm.okim.presentation.task.data.dto.ResponseTaskDto;
+import com.goorm.okim.presentation.task.data.response.ResponseTaskDto;
 import com.goorm.okim.presentation.task.data.response.ResponseTaskCreatedDto;
 import com.goorm.okim.util.mapper.TaskMapper;
 import lombok.RequiredArgsConstructor;

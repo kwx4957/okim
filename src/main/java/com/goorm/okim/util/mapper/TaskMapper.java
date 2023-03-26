@@ -3,7 +3,7 @@ package com.goorm.okim.util.mapper;
 import com.goorm.okim.infra.query.DTO.GroupTaskQueryDto;
 import com.goorm.okim.infra.query.DTO.UserTaskQueryDTO;
 import com.goorm.okim.presentation.task.data.dto.ItemDto;
-import com.goorm.okim.presentation.task.data.dto.ResponseTaskDto;
+import com.goorm.okim.presentation.task.data.response.ResponseTaskDto;
 import com.goorm.okim.presentation.task.data.dto.TaskUserInfoDto;
 import com.goorm.okim.presentation.task.data.ItemStatus;
 import org.springframework.stereotype.Component;
