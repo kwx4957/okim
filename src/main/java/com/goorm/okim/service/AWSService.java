@@ -3,7 +3,7 @@ package com.goorm.okim.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.goorm.okim.presentation.domain.S3FileDto;
+import com.goorm.okim.presentation.S3FileDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

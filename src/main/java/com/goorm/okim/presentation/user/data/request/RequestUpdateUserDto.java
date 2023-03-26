@@ -1,4 +1,4 @@
-package com.goorm.okim.presentation.domain.user;
+package com.goorm.okim.presentation.user.data.request;
 
 import lombok.Data;
 

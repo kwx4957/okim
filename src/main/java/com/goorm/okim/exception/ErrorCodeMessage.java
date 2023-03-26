@@ -9,7 +9,8 @@ package com.goorm.okim.exception;
 public enum ErrorCodeMessage {
 
     USER_DUPLICATE_EMAIL(2000, "해당 이메일로 가입하실 수 없습니다. 다시 확인 바랍니다."),
-    TASK_NOT_FOUND(4000, "존재하지 않는 테스크 입니다.");
+    TASK_NOT_FOUND(4000, "존재하지 않는 테스크 입니다."),
+    GROUP_NOT_FOUND(3000, "존재하지 않는 그룹 입니다.");
 
     private final int code;
     private final String message;

@@ -1,17 +1,15 @@
-package com.goorm.okim.presentation.domain.task;
+package com.goorm.okim.presentation.task.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.goorm.okim.domain.Item;
-import lombok.AllArgsConstructor;
+import com.goorm.okim.presentation.task.data.ItemStatus;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class ItemDto {
     private Long itemId;
     private String itemStatus;
@@ -24,13 +22,12 @@ public class ItemDto {
     private LocalDateTime itemUpdatedDt;
 
     public static ItemDto from(Item item) {
-        ItemDto itemDto = new ItemDto();
-        itemDto.itemId = item.getId();
-        itemDto.itemTitle = item.getTitle();
-        itemDto.itemStatus = ItemStatus.from(item.isDone()).name();
-        itemDto.itemCreatedDt = item.getCreatedAt();
-        itemDto.itemUpdatedDt = item.getLastModifiedAt();
-        return itemDto;
+        return ItemDto.builder()
+                .itemId(item.getId())
+                .itemTitle(item.getTitle())
+                .itemStatus(ItemStatus.from(item.isDone()).name())
+                .itemCreatedDt(item.getCreatedAt())
+                .itemUpdatedDt(item.getLastModifiedAt())
+                .build();
     }
-
 }

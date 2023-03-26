@@ -3,7 +3,7 @@ package com.goorm.okim.service;
 import com.goorm.okim.common.Response;
 import com.goorm.okim.domain.Item;
 import com.goorm.okim.infra.repository.ItemRepository;
-import com.goorm.okim.presentation.domain.item.RequestCreateItemDto;
+import com.goorm.okim.presentation.item.RequestCreateItemDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

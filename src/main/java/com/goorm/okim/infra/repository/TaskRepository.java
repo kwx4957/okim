@@ -17,4 +17,9 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             "INNER JOIN t.items i " +
             "WHERE t.userId = :userId AND (i IS NOT NULL) ORDER BY t.createdAt DESC")
     Page<Task> findAllByUserId(@Param("userId") long userId, Pageable pageable);
+
+    @Query("SELECT t FROM Task t " +
+            "INNER JOIN t.items i WHERE (i IS NOT NULL)" +
+            "AND t.isDeleted = false ORDER BY t.createdAt DESC")
+    Page<Task> findAll(Pageable pageable);
 }

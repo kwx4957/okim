@@ -1,7 +1,7 @@
 package com.goorm.okim.domain;
 
-import com.goorm.okim.presentation.domain.user.RequestUpdateUserDto;
-import com.goorm.okim.presentation.domain.user.SignupRequest;
+import com.goorm.okim.presentation.user.data.request.RequestUpdateUserDto;
+import com.goorm.okim.presentation.user.data.request.RequestSignUpDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -43,11 +43,11 @@ public class User {
     public boolean isActive() {
         return !isWithdrawl;
     }
-    public static User from(SignupRequest signupRequest, PasswordEncoder passwordEncoder) {
+    public static User from(RequestSignUpDto requestSignUpDTO, PasswordEncoder passwordEncoder) {
         User user = new User();
-        user.email = signupRequest.getEmail();
-        user.nickname = signupRequest.getNickname();
-        user.password = passwordEncoder.encode(signupRequest.getPassword());
+        user.email = requestSignUpDTO.getEmail();
+        user.nickname = requestSignUpDTO.getNickname();
+        user.password = passwordEncoder.encode(requestSignUpDTO.getPassword());
         return user;
     }
     public void update(RequestUpdateUserDto userDto, String uploadFileUrl){
