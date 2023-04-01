@@ -26,8 +26,9 @@ spring:
             enable: true
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
+      host: redis-18164.c290.ap-northeast-1-2.ec2.cloud.redislabs.com
+      port: 18164
+      password: thZlGuE3PH1pQ5aJaJRGVUzrez4NVBdD
 # aws configure
 cloud:
   aws:
