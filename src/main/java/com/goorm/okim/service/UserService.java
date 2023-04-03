@@ -31,7 +31,7 @@ import static com.goorm.okim.exception.ErrorCodeMessage.*;
 @RequiredArgsConstructor
 public class UserService {
 
-//    private final RedisService redisService;
+    private final RedisService redisService;
     private final UserRepository userRepository;
     private final AWSService awsService;
     private final PasswordEncoder passwordEncoder;
@@ -115,7 +115,7 @@ public class UserService {
         message.addRecipients(Message.RecipientType.TO,email);
         javaMailSender.send(message);
 
-//        redisService.setDataExpire(redisKey,email,60*5L);
+        redisService.setDataExpire(redisKey,email,60*5L);
         return Response.success("send email success");
     }
 
