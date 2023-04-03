@@ -59,7 +59,6 @@ public class TaskService {
     @Transactional(readOnly = true)
     public ResponseTaskDto getTaskItems(long taskId) {
         Task task = findTask(taskId);
-        task.validate();
         return ResponseTaskDto.withItems(task, task.getItems()); // 의미를 명확하게 하기 위해서 task.getItems() 도 넘기도록 한다.
     }
 

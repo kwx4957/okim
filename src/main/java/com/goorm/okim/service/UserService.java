@@ -1,9 +1,10 @@
 package com.goorm.okim.service;
 
 import com.goorm.okim.common.Response;
+import com.goorm.okim.domain.Organization;
 import com.goorm.okim.domain.User;
 import com.goorm.okim.exception.BusinessLogicException;
-import com.goorm.okim.exception.ErrorCodeMessage;
+import com.goorm.okim.infra.repository.OrganizationRepository;
 import com.goorm.okim.infra.repository.UserRepository;
 import com.goorm.okim.presentation.S3FileDto;
 import com.goorm.okim.presentation.user.data.request.RequestUpdateUserDto;
@@ -24,6 +25,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import static com.goorm.okim.exception.ErrorCodeMessage.*;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -33,8 +36,9 @@ public class UserService {
     private final AWSService awsService;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
+    private final OrganizationRepository organizationRepository;
 
-    public ResponseEntity<?> getUserTask(long userId) {
+    public ResponseEntity<?> getUserInfo(long userId) {
        Optional<User> user = userRepository.findById(userId);
 
        if(user.isEmpty()){
@@ -85,15 +89,21 @@ public class UserService {
 
     public void signUp(RequestSignUpDto requestSignUpDto) {
         validateUniqueEmail(requestSignUpDto.getEmail());
-        // todo 최종 회원가입 이전, 인증코드 확인 유무 체크
-        User user = User.from(requestSignUpDto, passwordEncoder);
+        // TODO 최종 회원가입 이전, 인증코드 확인 유무 체크 + 닉네임 체크
+        Organization organization = findGroup(requestSignUpDto);
+        User user = User.from(requestSignUpDto, organization, passwordEncoder);
         userRepository.save(user);
+    }
+
+    private Organization findGroup(RequestSignUpDto requestSignUpDto) {
+        return organizationRepository.findById(requestSignUpDto.getGroupId())
+                .orElseThrow(() -> new BusinessLogicException(GROUP_NOT_FOUND));
     }
 
     private void validateUniqueEmail(String email) {
         Boolean exists = userRepository.existsByEmail(email);
         if (Boolean.TRUE.equals(exists)) {
-            throw new BusinessLogicException(ErrorCodeMessage.USER_DUPLICATE_EMAIL);
+            throw new BusinessLogicException(USER_DUPLICATE_EMAIL);
         }
     }
 

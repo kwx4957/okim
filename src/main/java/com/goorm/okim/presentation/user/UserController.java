@@ -36,8 +36,8 @@ public class UserController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getUserTask(@PathVariable("userId") long userId){
-        return userService.getUserTask(userId);
+    public ResponseEntity<?> getUserInfo(@PathVariable("userId") long userId){
+        return userService.getUserInfo(userId);
     }
 
     @GetMapping("/email/{email}/check")
