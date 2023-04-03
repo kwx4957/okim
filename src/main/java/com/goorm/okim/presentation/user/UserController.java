@@ -36,8 +36,8 @@ public class UserController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getUserTask(@PathVariable("userId") long userId){
-        return userService.getUserTask(userId);
+    public ResponseEntity<?> getUserInfo(@PathVariable("userId") long userId){
+        return userService.getUserInfo(userId);
     }
 
     @GetMapping("/email/{email}/check")
@@ -85,14 +85,14 @@ public class UserController {
         return userService.sendEmailTo(email);
     }
 
-    @GetMapping("/email/validation")
-    public ResponseEntity<?> getKey(@RequestBody String code) {
-        if (redisService.getData(code) == null) {
-            return Response.failBadRequest(-1, "유효하지 않는 인증번호");
-        }
-
-        return Response.success(redisService.getData(code));
-    }
+//    @GetMapping("/email/validation")
+//    public ResponseEntity<?> getKey(@RequestBody String code) {
+//        if (redisService.getData(code) == null) {
+//            return Response.failBadRequest(-1, "유효하지 않는 인증번호");
+//        }
+//
+//        return Response.success(redisService.getData(code));
+//    }
     @GetMapping("/user/{userId}/tasks")
     public ResponseEntity<?> getUserTasks(
             @PathVariable long userId,

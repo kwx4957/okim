@@ -7,14 +7,14 @@ import lombok.Getter;
 @Getter
 public class ResponseUserDto {
 
-    private String ninkname;
+    private String nickname;
     private String Organization;
     private String githubId;
     private String profileImage;
     private String selfDesc;
 
     public Object from(User user){
-        this.ninkname = user.getNickname();
+        this.nickname = user.getNickname();
         this.Organization = null;
         this.githubId = user.getGithubId();
         this.profileImage = user.getProfileImage();

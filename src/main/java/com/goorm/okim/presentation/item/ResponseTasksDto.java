@@ -1,6 +1,6 @@
 package com.goorm.okim.presentation.item;
 
-import com.goorm.okim.presentation.task.data.dto.ResponseTaskDto;
+import com.goorm.okim.presentation.task.data.response.ResponseTaskDto;
 import lombok.Getter;
 
 import java.util.List;

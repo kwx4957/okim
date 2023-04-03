@@ -10,7 +10,7 @@ import com.goorm.okim.infra.repository.OrganizationRepository;
 import com.goorm.okim.infra.repository.TaskRepository;
 import com.goorm.okim.presentation.item.ResponseTasksDto;
 import com.goorm.okim.presentation.task.data.response.ResponseGroupTasksDto;
-import com.goorm.okim.presentation.task.data.dto.ResponseTaskDto;
+import com.goorm.okim.presentation.task.data.response.ResponseTaskDto;
 import com.goorm.okim.presentation.task.data.response.ResponseTaskCreatedDto;
 import com.goorm.okim.util.mapper.TaskMapper;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +59,6 @@ public class TaskService {
     @Transactional(readOnly = true)
     public ResponseTaskDto getTaskItems(long taskId) {
         Task task = findTask(taskId);
-        task.validate();
         return ResponseTaskDto.withItems(task, task.getItems()); // 의미를 명확하게 하기 위해서 task.getItems() 도 넘기도록 한다.
     }
 

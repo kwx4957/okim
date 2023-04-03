@@ -40,6 +40,10 @@ public class User {
     @Column
     private String githubId;
 
+    @ManyToOne
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
+
     public boolean isActive() {
         return !isWithdrawl;
     }
@@ -48,8 +52,20 @@ public class User {
         user.email = requestSignUpDTO.getEmail();
         user.nickname = requestSignUpDTO.getNickname();
         user.password = passwordEncoder.encode(requestSignUpDTO.getPassword());
+        user.nickname = requestSignUpDTO.getNickname();
         return user;
     }
+
+    public static User from(RequestSignUpDto requestSignUpDTO, Organization organization, PasswordEncoder passwordEncoder) {
+        User user = new User();
+        user.email = requestSignUpDTO.getEmail();
+        user.nickname = requestSignUpDTO.getNickname();
+        user.password = passwordEncoder.encode(requestSignUpDTO.getPassword());
+        user.nickname = requestSignUpDTO.getNickname();
+        user.organization = organization;
+        return user;
+    }
+
     public void update(RequestUpdateUserDto userDto, String uploadFileUrl){
         this.nickname = userDto.getNickname();
         this.selfDesc = userDto.getSelfDesc();
