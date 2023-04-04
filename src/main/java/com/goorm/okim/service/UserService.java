@@ -14,10 +14,12 @@ import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -27,6 +29,7 @@ import java.util.regex.Pattern;
 
 import static com.goorm.okim.exception.ErrorCodeMessage.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -37,6 +40,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
     private final OrganizationRepository organizationRepository;
+    private final RedisService redisService;
 
     public ResponseEntity<?> getUserInfo(long userId) {
        Optional<User> user = userRepository.findById(userId);
@@ -71,28 +75,41 @@ public class UserService {
         return Pattern.compile("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}").matcher(email).matches();
     }
 
+    @Transactional
     public ResponseEntity<?> updateUserProfile(long userId, RequestUpdateUserDto userDto, MultipartFile file){
-        Optional<User> user = userRepository.findById(userId);
+        // 유저 업데이트
+        User user = findUser(userId);
 
-        if(user.isEmpty()){
-            return Response.failNotFound(404,"해당 유저는 없는 유저입니다");
+        // 프로필 이미지 저장
+        if (file != null) {
+            S3FileDto s3FileDto = awsService.uploadFiles(file);
+            String profileUrl = s3FileDto.getUploadFileUrl();
+            user.updateWithProfileImg(userDto, profileUrl);
+        }else{
+            user.update(userDto);
         }
-
-        S3FileDto s3FileDto = awsService.uploadFiles(file);
-
-        user.get().update(userDto,s3FileDto.getUploadFileUrl());
-
-        userRepository.save(user.get());
         return Response.success("Update Success");
     }
 
 
     public void signUp(RequestSignUpDto requestSignUpDto) {
+        // 1. 이메일 중복여부 체크
         validateUniqueEmail(requestSignUpDto.getEmail());
-        // TODO 최종 회원가입 이전, 인증코드 확인 유무 체크 + 닉네임 체크
+
+        // 2. 인증코드 유효성 체크
+        String email = redisService.getData(requestSignUpDto.getVerificationCode());
+        verifyAuthCode(requestSignUpDto, email);
+
+        // 3. 유저 저장(회원가입)
         Organization organization = findGroup(requestSignUpDto);
         User user = User.from(requestSignUpDto, organization, passwordEncoder);
         userRepository.save(user);
+    }
+
+    private void verifyAuthCode(RequestSignUpDto requestSignUpDto, String email) {
+        if(email == null || email == requestSignUpDto.getEmail()){
+            throw new BusinessLogicException(AUTH_REQUIRED_VERIFICATION_CODE);
+        }
     }
 
     private Organization findGroup(RequestSignUpDto requestSignUpDto) {
@@ -114,8 +131,7 @@ public class UserService {
         message.setText(createEmailText(redisKey),"UTF-8","html");
         message.addRecipients(Message.RecipientType.TO,email);
         javaMailSender.send(message);
-
-//        redisService.setDataExpire(redisKey,email,60*5L);
+        redisService.setDataExpire(redisKey,email,60*5L);
         return Response.success("send email success");
     }
 
@@ -155,6 +171,11 @@ public class UserService {
             }
         }
         return key.toString();
+    }
+
+    private User findUser(long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessLogicException(NOT_FOUND_USER));
     }
 
 }

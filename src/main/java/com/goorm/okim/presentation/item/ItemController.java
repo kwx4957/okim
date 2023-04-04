@@ -29,7 +29,7 @@ public class ItemController {
         return itemService.updateItem(itemId,title);
     }
     @DeleteMapping("/items/{itemId}")
-    public ResponseEntity<?> deletaItem(@PathVariable("itemId") long itemId){
+    public ResponseEntity<?> deleteItem(@PathVariable("itemId") long itemId){
         return itemService.deleteItem(itemId);
     }
 

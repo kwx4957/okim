@@ -27,7 +27,7 @@ public class Task extends BaseEntity {
 
     @JoinColumn(name = "taskId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @OrderBy("id asc")
+    @OrderBy("id desc")
     private List<Item> items = new ArrayList<>();
 
     public void validate() {
