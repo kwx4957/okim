@@ -34,7 +34,7 @@ import static com.goorm.okim.exception.ErrorCodeMessage.*;
 @RequiredArgsConstructor
 public class UserService {
 
-//    private final RedisService redisService;
+    private final RedisService redisService;
     private final UserRepository userRepository;
     private final AWSService awsService;
     private final PasswordEncoder passwordEncoder;
