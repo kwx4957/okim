@@ -40,7 +40,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
     private final OrganizationRepository organizationRepository;
-    private final RedisService redisService;
 
     public ResponseEntity<?> getUserInfo(long userId) {
        Optional<User> user = userRepository.findById(userId);
