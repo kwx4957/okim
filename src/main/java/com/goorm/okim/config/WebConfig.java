@@ -12,6 +12,8 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    public static final String LOCAL_FRONT = "http://localhost:8080";
+
     @Autowired
     private CurrentUserIdResolver currentUserIdResolver;
 
@@ -23,7 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080")
+                .allowedOrigins(LOCAL_FRONT, "http://www.oh-kim.com", "http://oh-kim.com")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowCredentials(true);
     }
