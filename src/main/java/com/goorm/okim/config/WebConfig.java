@@ -2,6 +2,7 @@ package com.goorm.okim.config;
 
 import com.goorm.okim.jwt.CurrentUserIdResolver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -14,6 +15,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     public static final String LOCAL_FRONT = "http://localhost:8080";
 
+    @Value("${front.url.http}")
+    private String frontHttp;
+
+    @Value("${front.url.https}")
+    private String frontHttps ;
+
     @Autowired
     private CurrentUserIdResolver currentUserIdResolver;
 
@@ -25,7 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(LOCAL_FRONT, "http://www.oh-kim.com", "http://oh-kim.com")
+                .allowedOrigins(LOCAL_FRONT, frontHttp, frontHttps)
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowCredentials(true);
     }

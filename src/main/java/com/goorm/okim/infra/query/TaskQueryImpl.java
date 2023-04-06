@@ -2,7 +2,6 @@ package com.goorm.okim.infra.query;
 
 
 import com.goorm.okim.domain.QItem;
-import com.goorm.okim.domain.QTask;
 import com.goorm.okim.domain.QUser;
 import com.goorm.okim.infra.query.DTO.GroupTaskQueryDto;
 import com.goorm.okim.infra.query.DTO.UserTaskQueryDTO;
@@ -19,29 +18,28 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.goorm.okim.domain.QItem.item;
+import static com.goorm.okim.domain.QOrganization.organization;
 import static com.goorm.okim.domain.QTask.task;
 import static com.goorm.okim.domain.QUser.user;
-import static com.goorm.okim.domain.QUserOrganization.userOrganization;
 import static com.querydsl.jpa.JPAExpressions.select;
 
 @Component
 @RequiredArgsConstructor
-public class TaskQueryImpl implements TaskQuery{
+public class TaskQueryImpl implements TaskQuery {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
     public Page<GroupTaskQueryDto> findGroupTasksByGroupId(long groupId, Pageable pageable) {
         QItem item2 = new QItem("qItem2");
-        List<GroupTaskQueryDto> result = queryFactory
-                .select(
+        List<GroupTaskQueryDto> result = queryFactory.select(
                         Projections.bean(GroupTaskQueryDto.class,
                                 task.id.as("taskId"),
                                 task.createdAt.as("taskCreatedDt"),
                                 task.lastModifiedAt.as("taskUpdatedDt"),
                                 item.id.as("itemId"),
-                                item.isDone.as("itemStatus"),
                                 item.title.as("itemTitle"),
+                                item.isDone.as("itemIsDone"),
                                 item.createdAt.as("itemCreatedDt"),
                                 item.lastModifiedAt.as("itemUpdatedDt"),
                                 task.userId.as("userId"),
@@ -56,15 +54,12 @@ public class TaskQueryImpl implements TaskQuery{
                         )
                 )
                 .from(task)
-                .innerJoin(item).on(item.taskId.eq(task.id))
-                .innerJoin(user).on(user.id.eq(task.userId))
-                .innerJoin(userOrganization).on(userOrganization.user.eq(user))
-                .where(
-                        organizationIdEq(groupId),
-                        onlyMainItem(item, item2, task),
-                        userNotDeleted(user)
-                )
+                .join(user).on(task.userId.eq(user.id))
+                .join(item).on(item.taskId.eq(task.id))
+                .join(organization).on(organization.eq(user.organization))
+                .where(organizationIdEq(groupId), userNotDeleted(user))
                 .groupBy(task.id)
+                .orderBy(task.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -97,7 +92,6 @@ public class TaskQueryImpl implements TaskQuery{
                 .innerJoin(item).on(item.taskId.eq(task.id))
                 .innerJoin(user).on(user.id.eq(task.userId))
                 .where(
-                        onlyMainItem(item, item2, task),
                         userNotDeleted(user),
                         userEq(userId)
                 )
@@ -108,19 +102,49 @@ public class TaskQueryImpl implements TaskQuery{
         return new PageImpl<>(result);
     }
 
+    @Override
+    public Page<GroupTaskQueryDto> findTasks(Pageable pageable) {
+        QItem item2 = new QItem("qItem2");
+        List<GroupTaskQueryDto> result = queryFactory.select(
+                Projections.bean(GroupTaskQueryDto.class,
+                        task.id.as("taskId"),
+                        task.createdAt.as("taskCreatedDt"),
+                        task.lastModifiedAt.as("taskUpdatedDt"),
+                        item.id.as("itemId"),
+                        item.title.as("itemTitle"),
+                        item.isDone.as("itemIsDone"),
+                        item.createdAt.as("itemCreatedDt"),
+                        item.lastModifiedAt.as("itemUpdatedDt"),
+                        task.userId.as("userId"),
+                        user.profileImage.as("profileImgUrl"),
+                        user.nickname.as("nickname"),
+                        ExpressionUtils.as(select(item2.id.count())
+                                .from(item2)
+                                .where(item2.taskId.eq(task.id), item2.isDone.isTrue()), "itemCompletedCount"),
+                        ExpressionUtils.as(select(item2.id.count())
+                                .from(item2)
+                                .where(item2.taskId.eq(task.id)), "itemTotalCount")
+                )
+        ).from(task)
+                .innerJoin(item).on(item.taskId.eq(task.id))
+                .innerJoin(user).on(user.id.eq(task.userId))
+                .where(
+                        userNotDeleted(user).and(item.isNotNull())
+                )
+                .groupBy(task.id)
+                .orderBy(task.createdAt.desc())
+                .offset(0)
+                .limit(10)
+                .fetch();
+        return new PageImpl<>(result);
+    }
+
     private BooleanExpression userEq(long userId) {
         return user.id.eq(userId);
     }
 
     private BooleanExpression organizationIdEq(Long groupId) {
-        return userOrganization.organization.id.eq(groupId);
-    }
-
-    // select main item
-    private BooleanExpression onlyMainItem(QItem item, QItem item2, QTask task) {
-        return item.id.eq(select(item.id.min())
-                .from(item2)
-                .where(item2.taskId.eq(task.id)));
+        return organization.id.eq(groupId);
     }
 
     // only active user

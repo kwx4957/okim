@@ -57,6 +57,14 @@ public class TaskService {
     }
 
     @Transactional(readOnly = true)
+    public Object getRecentTasks(Pageable pageable) {
+        Page<GroupTaskQueryDto> groupTasksQueryDtos = taskQuery.findTasks(pageable);
+        List<ResponseTaskDto> responseTaskDTOS = groupTasksQueryDtos.getContent().stream()
+                .map(taskQueryDtoMapper::mapToTaskDtoWithUserInfo).toList();
+        return ResponseGroupTasksDto.from(responseTaskDTOS, groupTasksQueryDtos.isLast());
+    }
+
+    @Transactional(readOnly = true)
     public ResponseTaskDto getTaskItems(long taskId) {
         Task task = findTask(taskId);
         return ResponseTaskDto.withItems(task, task.getItems()); // 의미를 명확하게 하기 위해서 task.getItems() 도 넘기도록 한다.

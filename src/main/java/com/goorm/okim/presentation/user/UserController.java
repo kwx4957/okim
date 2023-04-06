@@ -62,15 +62,19 @@ public class UserController {
             RequestUpdateUserDto requestUpdateUserDto
     ){
         // 파일이 있을 경우에는 형식을 체크합니다.
-        if(file != null && !file.isEmpty()){
-            if(Objects.requireNonNull(file.getContentType()).contains("image/jpg")){
-                return Response.failBadRequest(404,"잘못된 형식의 이미지입니다");
-            }
-            else if (Objects.requireNonNull(file.getContentType()).contains("image/png")){
-                return Response.failBadRequest(404,"잘못된 형식의 이미지입니다");
+        if (file != null && !file.isEmpty()) {
+            switch (Objects.requireNonNull(file.getContentType())) {
+                case "image/jpeg":
+                case "image/jpg":
+                case "image/png":
+                case "image/gif":
+                    // 허용된 이미지 파일 형식인 경우
+                    break;
+                default:
+                    // 허용되지 않은 이미지 파일 형식인 경우
+                    return Response.failBadRequest(404, "잘못된 형식의 이미지입니다");
             }
         }
-
 
         return userService.updateUserProfile(userId,requestUpdateUserDto,file);
     }

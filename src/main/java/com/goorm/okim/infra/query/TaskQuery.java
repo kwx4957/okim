@@ -9,4 +9,5 @@ import org.springframework.data.domain.Pageable;
 public interface TaskQuery {
     Page<GroupTaskQueryDto> findGroupTasksByGroupId(long groupId, Pageable pageable);
     Page<UserTaskQueryDTO> findUserTasks(long userId, Pageable pageable);
+    Page<GroupTaskQueryDto> findTasks(Pageable pageable);
 }
