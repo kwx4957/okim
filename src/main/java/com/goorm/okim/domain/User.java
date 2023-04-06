@@ -66,16 +66,18 @@ public class User {
         return user;
     }
 
-    public void updateWithProfileImg(RequestUpdateUserDto userDto, String uploadFileUrl){
+    public void updateWithProfileImg(RequestUpdateUserDto userDto,Organization organization, String uploadFileUrl){
         this.nickname = userDto.getNickname();
         this.selfDesc = userDto.getSelfDesc();
         this.githubId = userDto.getGithubId();
+        this.organization = organization;
         this.profileImage = uploadFileUrl;
     }
 
-    public void update(RequestUpdateUserDto userDto) {
+    public void update(RequestUpdateUserDto userDto, Organization organization) {
         this.nickname = userDto.getNickname();
         this.selfDesc = userDto.getSelfDesc();
         this.githubId = userDto.getGithubId();
+        this.organization = organization;
     }
 }

@@ -51,7 +51,6 @@ public class UserService {
        if(user.get().isWithdrawl()){
            return Response.failBadRequest(404,"해당 유저는 탈퇴한 유저입니다");
        }
-
        return Response.success(new ResponseUserDto().from(user.get()));
     }
 
@@ -78,14 +77,15 @@ public class UserService {
     public ResponseEntity<?> updateUserProfile(long userId, RequestUpdateUserDto userDto, MultipartFile file){
         // 유저 업데이트
         User user = findUser(userId);
+        Organization organization = findGroup(userDto.groupId);
 
         // 프로필 이미지 저장
         if (file != null) {
             S3FileDto s3FileDto = awsService.uploadFiles(file);
             String profileUrl = s3FileDto.getUploadFileUrl();
-            user.updateWithProfileImg(userDto, profileUrl);
+            user.updateWithProfileImg(userDto, organization, profileUrl);
         }else{
-            user.update(userDto);
+            user.update(userDto, organization);
         }
         return Response.success("Update Success");
     }
@@ -100,7 +100,7 @@ public class UserService {
         verifyAuthCode(requestSignUpDto, email);
 
         // 3. 유저 저장(회원가입)
-        Organization organization = findGroup(requestSignUpDto);
+        Organization organization = findGroup(requestSignUpDto.getGroupId());
         User user = User.from(requestSignUpDto, organization, passwordEncoder);
         userRepository.save(user);
     }
@@ -111,8 +111,8 @@ public class UserService {
         }
     }
 
-    private Organization findGroup(RequestSignUpDto requestSignUpDto) {
-        return organizationRepository.findById(requestSignUpDto.getGroupId())
+    private Organization findGroup(long groupId) {
+        return organizationRepository.findById(groupId)
                 .orElseThrow(() -> new BusinessLogicException(GROUP_NOT_FOUND));
     }
 

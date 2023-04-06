@@ -8,4 +8,5 @@ public class RequestUpdateUserDto {
     public String selfDesc;
     public String githubId;
     public String profileImage;
+    public long groupId;
 }
