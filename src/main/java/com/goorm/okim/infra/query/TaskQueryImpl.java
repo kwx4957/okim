@@ -44,7 +44,7 @@ public class TaskQueryImpl implements TaskQuery{
                                 item.title.as("itemTitle"),
                                 item.createdAt.as("itemCreatedDt"),
                                 item.lastModifiedAt.as("itemUpdatedDt"),
-                                user.id.as("userId"),
+                                task.userId.as("userId"),
                                 user.profileImage.as("profileImgUrl"),
                                 user.nickname.as("nickname"),
                                 ExpressionUtils.as(select(item2.id.count())

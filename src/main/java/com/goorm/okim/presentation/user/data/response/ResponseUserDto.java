@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class ResponseUserDto {
 
+    private long userId;
     private String nickname;
     private String Organization;
     private String githubId;
@@ -14,6 +15,7 @@ public class ResponseUserDto {
     private String selfDesc;
 
     public Object from(User user){
+        this.userId = user.getId();
         this.nickname = user.getNickname();
         this.Organization = null;
         this.githubId = user.getGithubId();
