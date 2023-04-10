@@ -1,3 +1,5 @@
+server:
+  port: 8085
 spring:
   devtools:
     add-properties: true
@@ -26,8 +28,9 @@ spring:
             enable: true
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
+      host: redis-18164.c290.ap-northeast-1-2.ec2.cloud.redislabs.com
+      port: 18164
+      password: thZlGuE3PH1pQ5aJaJRGVUzrez4NVBdD
 # aws configure
 cloud:
   aws:
@@ -44,3 +47,9 @@ jwt:
   secret-key: 4D635166546A576E5A7234753778214125442A472D4B614E645267556B587032
   access-token-exp: 360000
   refresh-token-exp: 2592000
+
+# 프론트 서버
+front:
+  url:
+    http: "http://www.oh-kim.com"
+    https: "https://www.oh-kim.com"
