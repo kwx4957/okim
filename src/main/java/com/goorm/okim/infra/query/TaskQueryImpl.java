@@ -106,26 +106,26 @@ public class TaskQueryImpl implements TaskQuery {
     public Page<GroupTaskQueryDto> findTasks(Pageable pageable) {
         QItem item2 = new QItem("qItem2");
         List<GroupTaskQueryDto> result = queryFactory.select(
-                Projections.bean(GroupTaskQueryDto.class,
-                        task.id.as("taskId"),
-                        task.createdAt.as("taskCreatedDt"),
-                        task.lastModifiedAt.as("taskUpdatedDt"),
-                        item.id.as("itemId"),
-                        item.title.as("itemTitle"),
-                        item.isDone.as("itemIsDone"),
-                        item.createdAt.as("itemCreatedDt"),
-                        item.lastModifiedAt.as("itemUpdatedDt"),
-                        task.userId.as("userId"),
-                        user.profileImage.as("profileImgUrl"),
-                        user.nickname.as("nickname"),
-                        ExpressionUtils.as(select(item2.id.count())
-                                .from(item2)
-                                .where(item2.taskId.eq(task.id), item2.isDone.isTrue()), "itemCompletedCount"),
-                        ExpressionUtils.as(select(item2.id.count())
-                                .from(item2)
-                                .where(item2.taskId.eq(task.id)), "itemTotalCount")
-                )
-        ).from(task)
+                        Projections.bean(GroupTaskQueryDto.class,
+                                task.id.as("taskId"),
+                                task.createdAt.as("taskCreatedDt"),
+                                task.lastModifiedAt.as("taskUpdatedDt"),
+                                item.id.as("itemId"),
+                                item.title.as("itemTitle"),
+                                item.isDone.as("itemIsDone"),
+                                item.createdAt.as("itemCreatedDt"),
+                                item.lastModifiedAt.as("itemUpdatedDt"),
+                                task.userId.as("userId"),
+                                user.profileImage.as("profileImgUrl"),
+                                user.nickname.as("nickname"),
+                                ExpressionUtils.as(select(item2.id.count())
+                                        .from(item2)
+                                        .where(item2.taskId.eq(task.id), item2.isDone.isTrue()), "itemCompletedCount"),
+                                ExpressionUtils.as(select(item2.id.count())
+                                        .from(item2)
+                                        .where(item2.taskId.eq(task.id)), "itemTotalCount")
+                        )
+                ).from(task)
                 .innerJoin(item).on(item.taskId.eq(task.id))
                 .innerJoin(user).on(user.id.eq(task.userId))
                 .where(
@@ -137,6 +137,25 @@ public class TaskQueryImpl implements TaskQuery {
                 .limit(10)
                 .fetch();
         return new PageImpl<>(result);
+    }
+
+    @Override
+    public Boolean isAuthorizedForItem(long userId, long itemId) {
+        Integer fetchOne = queryFactory.selectOne()
+                .from(task)
+                .join(item).on(item.taskId.eq(task.id))
+                .where(task.userId.eq(userId).and(item.id.eq(itemId)))
+                .fetchFirst();
+        return fetchOne != null;
+    }
+
+    @Override
+    public Boolean isAuthorizedForTask(long userId, long taskId) {
+        Integer fetchOne = queryFactory.selectOne()
+                .from(task)
+                .where(task.id.eq(taskId).and(task.userId.eq(userId)))
+                .fetchFirst();
+        return fetchOne != null;
     }
 
     private BooleanExpression userEq(long userId) {

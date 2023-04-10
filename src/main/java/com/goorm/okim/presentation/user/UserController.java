@@ -1,5 +1,8 @@
 package com.goorm.okim.presentation.user;
 
+import com.goorm.okim.exception.BusinessLogicException;
+import com.goorm.okim.exception.ErrorCodeMessage;
+import com.goorm.okim.jwt.Login;
 import com.goorm.okim.presentation.user.data.request.RequestSignUpDto;
 import com.goorm.okim.common.Response;
 import com.goorm.okim.presentation.user.data.request.RequestUpdateUserDto;
@@ -57,10 +60,13 @@ public class UserController {
     // 유저 프로필 업데이트
     @PutMapping(value = "/user/{userId}", consumes = "multipart/form-data")
     public ResponseEntity<?> updateUserProfile(
+            @Login long loginId,
             @PathVariable("userId") long userId,
             @RequestPart(value = "file", required = false) MultipartFile file,
             RequestUpdateUserDto requestUpdateUserDto
     ){
+        checkAccess(loginId, userId);
+
         // 파일이 있을 경우에는 형식을 체크합니다.
         if (file != null && !file.isEmpty()) {
             switch (Objects.requireNonNull(file.getContentType())) {
@@ -102,6 +108,12 @@ public class UserController {
             Pageable pageable
     ) {
         return Response.success(taskService.getUserTasks(userId, pageable));
+    }
+
+    private static void checkAccess(long loginId, long userId) {
+        if (loginId != userId) {
+            throw new BusinessLogicException(ErrorCodeMessage.NOT_ACCESSIBLE);
+        }
     }
 
 }

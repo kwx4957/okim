@@ -33,6 +33,7 @@ public class TaskService {
     private final TaskQuery taskQuery;
     private final TaskMapper taskQueryDtoMapper;
 
+    @Transactional
     public ResponseTaskCreatedDto createTask(long userId) {
         Task task = Task.create(userId);
         Task savedTask = taskRepository.save(task);

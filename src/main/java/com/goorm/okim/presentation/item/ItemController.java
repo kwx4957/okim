@@ -16,25 +16,38 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping("/item")
-    public ResponseEntity<?> createItem(@Login long userId,
-                                        @RequestBody RequestCreateItemDto itemDto){
-        if(itemDto.getTitle().isBlank()){
-            return Response.failBadRequest(-1,"내용은 필수입니다");
+    @OwnerOnlyCreate
+    public ResponseEntity<?> createItem(
+            @Login long userId,
+            @RequestBody RequestCreateItemDto itemDto) {
+        if (itemDto.getTitle().isBlank()) {
+            return Response.failBadRequest(-1, "내용은 필수입니다");
         }
         return itemService.createItem(itemDto);
     }
+
     @PutMapping("/items/{itemId}")
-    public ResponseEntity<?> updateItem(@PathVariable("itemId") long itemId,
-                                        @RequestBody String title){
-        return itemService.updateItem(itemId,title);
+    @OwnerOnly
+    public ResponseEntity<?> updateItem(
+            @Login long userId,
+            @PathVariable("itemId") long itemId,
+            @RequestBody String title) {
+        return itemService.updateItem(itemId, title);
     }
+
     @DeleteMapping("/items/{itemId}")
-    public ResponseEntity<?> deleteItem(@PathVariable("itemId") long itemId){
+    @OwnerOnly
+    public ResponseEntity<?> deleteItem(
+            @Login long userId,
+            @PathVariable("itemId") long itemId) {
         return itemService.deleteItem(itemId);
     }
 
     @PutMapping("/items/{itemId}/done")
-    public ResponseEntity<?> revertDone(@PathVariable("itemId") long itemId){
+    @OwnerOnly
+    public ResponseEntity<?> revertDone(
+            @Login long userId,
+            @PathVariable("itemId") long itemId) {
         return itemService.revertDone(itemId);
     }
 

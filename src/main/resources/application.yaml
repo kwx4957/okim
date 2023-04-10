@@ -4,9 +4,13 @@ spring:
   devtools:
     add-properties: true
   datasource:
-    url: "jdbc:mysql://dev-database.cwfjsyuf7mwr.ap-northeast-2.rds.amazonaws.com:3306/fivekim"
-    username: admin
-    password: admin123
+    primary.url: "jdbc:mysql://dev-database.cwfjsyuf7mwr.ap-northeast-2.rds.amazonaws.com:3306/fivekim"
+    primary.username: admin
+    primary.password: admin123
+    replica.url: "jdbc:mysql://replica-public-dev-db.cwfjsyuf7mwr.ap-northeast-2.rds.amazonaws.com
+:3306/fivekim"
+    replica.username: admin
+    replica.password: admin123
   jpa:
     hibernate:
       ddl-auto: 'none'

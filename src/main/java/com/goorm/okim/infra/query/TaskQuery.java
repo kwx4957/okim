@@ -10,4 +10,7 @@ public interface TaskQuery {
     Page<GroupTaskQueryDto> findGroupTasksByGroupId(long groupId, Pageable pageable);
     Page<UserTaskQueryDTO> findUserTasks(long userId, Pageable pageable);
     Page<GroupTaskQueryDto> findTasks(Pageable pageable);
+
+    Boolean isAuthorizedForItem(long userId, long itemId);
+    Boolean isAuthorizedForTask(long userId, long taskId);
 }

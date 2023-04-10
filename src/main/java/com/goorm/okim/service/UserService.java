@@ -41,6 +41,7 @@ public class UserService {
     private final JavaMailSender javaMailSender;
     private final OrganizationRepository organizationRepository;
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> getUserInfo(long userId) {
        Optional<User> user = userRepository.findById(userId);
 
@@ -54,11 +55,13 @@ public class UserService {
        return Response.success(new ResponseUserDto().from(user.get()));
     }
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> existNickname(String nickname){
         Boolean existNickname = userRepository.existsByNickname(nickname);
         return Response.success(existNickname);
     }
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> existEmail(String email){
         //TODO 유효성 검사 작동하지 않음
         if(!validateEmail(email)){
@@ -90,7 +93,7 @@ public class UserService {
         return Response.success("Update Success");
     }
 
-
+    @Transactional
     public void signUp(RequestSignUpDto requestSignUpDto) {
         // 1. 이메일 중복여부 체크
         validateUniqueEmail(requestSignUpDto.getEmail());

@@ -1,2 +1,18 @@
 ### GET health check
 GET http://localhost:8085/actuator/health
+
+
+### POST create item
+POST http://localhost:8085/api/v1/item
+Authorization: Bearer {{ token }}
+Content-Type: application/json
+
+{
+  "taskId": 1254,
+  "title": "content sample"
+}
+
+### DELETE item
+DELETE http://localhost:8085/api/v1/items/322
+Authorization: Bearer {{ token }}
+Content-Type: : application/json
