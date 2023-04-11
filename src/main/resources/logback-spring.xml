@@ -8,7 +8,7 @@
 
 
     <!-- 현재는 하나의 properties 밖에 없음 -->
-    <springProfile name="local">
+    <springProfile name="local, default, prod">
         <include resource="logback/console-appender.xml"/>
         <include resource="logback/logstash/all-logstash-appender.xml"/>
 
