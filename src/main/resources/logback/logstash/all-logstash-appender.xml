@@ -1,0 +1,31 @@
+<included>
+    <!--
+        예외(exception) 트레이스 제외항목
+        https://github.com/logfellow/logstash-logback-encoder/blob/main/stack-hash.md
+    -->
+
+    <appender name="ALL_LOGSTASH_PROD" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>log.oh-kim.com:50000</destination>
+        <keepAliveDuration>5 minutes</keepAliveDuration>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/>
+                <timestamp/>
+                <pattern>
+                    <pattern>
+                        {
+                        "service": "okim-api",
+                        "tx-id": "%mdc{tx-id}",
+                        "tags": ["okim-api"],
+                        "logger": "%logger",
+                        "level": "%level",
+                        "thread": "%thread",
+                        "message": "%message",
+                        "container_id": "%mdc{container-id}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+</included>

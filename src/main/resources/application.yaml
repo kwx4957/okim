@@ -57,3 +57,7 @@ front:
   url:
     http: "http://www.oh-kim.com"
     https: "https://www.oh-kim.com"
+
+logging:
+  level:
+    web: debug

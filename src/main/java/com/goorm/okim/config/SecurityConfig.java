@@ -1,5 +1,6 @@
 package com.goorm.okim.config;
 
+import com.goorm.okim.filter.GlobalRequestFilter;
 import com.goorm.okim.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,12 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter authenticationFilter;
+    private final GlobalRequestFilter globalRequestFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors().disable()
                 .csrf().disable()
+                .addFilterBefore(globalRequestFilter, UsernamePasswordAuthenticationFilter.class)
                     .authorizeHttpRequests()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/user/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/v1/user/**").authenticated()

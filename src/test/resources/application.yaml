@@ -38,6 +38,7 @@ spring:
 # aws configure
 cloud:
   aws:
+
     credentials:
       access-key: AKIA4HDFBECQIMP3D5XD
       secret-key: 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

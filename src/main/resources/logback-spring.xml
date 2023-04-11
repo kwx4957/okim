@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <property name="STE_EXCLUSIONS" value="\$\$FastClassByCGLIB\$\$,\$\$EnhancerBySpringCGLIB\$\$,^sun\.reflect\..*\.invoke,^com\.sun\.,^sun\.net\.,^net\.sf\.cglib\.proxy\.MethodProxy\.invoke,^org\.springframework\.cglib\.,^org\.springframework\.transaction\.,^org\.springframework\.validation\.,^org\.springframework\.app\.,^org\.springframework\.aop\.,^java\.lang\.reflect\.Method\.invoke,^org\.springframework\.ws\..*\.invoke,^org\.springframework\.ws\.transport\.,^org\.springframework\.ws\.soap\.saaj\.SaajSoapMessage\.,^org\.springframework\.ws\.client\.core\.WebServiceTemplate\.,^org\.springframework\.web\.filter\.,^org\.apache\.tomcat\.,^org\.apache\.catalina\.,^org\.apache\.coyote\.,^java\.util\.concurrent\.ThreadPoolExecutor\.runWorker,^java\.lang\.Thread\.run$"/>
+
+    <property name="OKIM_LOG_PATTERN"
+              value="%cyan(%d{yyyy-MM-dd HH:mm:ss}:%-4relative) %highlight(%-5level) %yellow([%C.%M]:%boldWhite(%L)]) %n    > %msg%n"/>
+
+
+    <!-- 현재는 하나의 properties 밖에 없음 -->
+    <springProfile name="local">
+        <include resource="logback/console-appender.xml"/>
+        <include resource="logback/logstash/all-logstash-appender.xml"/>
+
+        <!-- 현재는 모든 것들을 똑같은 양식(패턴) 으로 logstash 에 저장중 -->
+        <root level="INFO">
+            <appender-ref ref="ALL_LOGSTASH_PROD"/>
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+</configuration>
