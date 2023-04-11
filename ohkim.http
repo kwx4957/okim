@@ -16,3 +16,7 @@ Content-Type: application/json
 DELETE http://localhost:8085/api/v1/items/322
 Authorization: Bearer {{ token }}
 Content-Type: : application/json
+
+
+### GET group tasks
+GET http://localhost:8085/api/v1/groups/1/tasks

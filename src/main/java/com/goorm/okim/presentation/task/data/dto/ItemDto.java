@@ -26,8 +26,8 @@ public class ItemDto {
                 .itemId(item.getId())
                 .itemTitle(item.getTitle())
                 .itemStatus(ItemStatus.from(item.isDone()).name())
-                .itemCreatedDt(item.getCreatedAt().toLocalDateTime())
-                .itemUpdatedDt(item.getLastModifiedAt().toLocalDateTime())
+                .itemCreatedDt(item.getCreatedAt())
+                .itemUpdatedDt(item.getLastModifiedAt())
                 .build();
     }
 }
