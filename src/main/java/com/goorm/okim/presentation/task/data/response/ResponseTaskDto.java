@@ -46,8 +46,8 @@ public class ResponseTaskDto {
         responseTaskDto.itemCompletedCount = task.getCompletedItemCount();
         responseTaskDto.itemTotalCount = task.getItemCount();
         responseTaskDto.itemDtos = items.stream().map(ItemDto::from).toList();
-        responseTaskDto.taskCreatedDt = task.getCreatedAt();
-        responseTaskDto.taskUpdatedDt = task.getLastModifiedAt();
+        responseTaskDto.taskCreatedDt = task.getCreatedAt().toLocalDateTime();
+        responseTaskDto.taskUpdatedDt = task.getLastModifiedAt().toLocalDateTime();
         return responseTaskDto;
     }
 
@@ -57,8 +57,8 @@ public class ResponseTaskDto {
         responseTaskDto.itemCompletedCount = task.getCompletedItemCount();
         responseTaskDto.itemTotalCount = task.getItemCount();
         responseTaskDto.itemDtos = task.getItems().stream().map(ItemDto::from).toList();
-        responseTaskDto.taskCreatedDt = task.getCreatedAt();
-        responseTaskDto.taskUpdatedDt = task.getLastModifiedAt();
+        responseTaskDto.taskCreatedDt = task.getCreatedAt().toLocalDateTime();
+        responseTaskDto.taskUpdatedDt = task.getLastModifiedAt().toLocalDateTime();
         return responseTaskDto;
     }
 }

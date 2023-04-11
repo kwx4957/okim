@@ -62,6 +62,7 @@ public class User {
         user.nickname = requestSignUpDTO.getNickname();
         user.password = passwordEncoder.encode(requestSignUpDTO.getPassword());
         user.nickname = requestSignUpDTO.getNickname();
+        user.profileImage = "https://okim.s3.ap-northeast-2.amazonaws.com/profile/empty-profile-picture-png-2-2.png";
         user.organization = organization;
         return user;
     }
