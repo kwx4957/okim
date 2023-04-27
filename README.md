@@ -9,16 +9,21 @@
 - Vue.js   
 
 [Back] / [Auth]
-- Springboot 3.0.4, Spring Data JPA, Spring Security
+- Springboot 3.0.4, Spring Data JPA, Spring Security, Querydsl 5.0 
 - Mysql 8.0
 - JDK 17
+- Gradle 
+- Junit 5 
 
 Devops [deploy]
-- EKS 
+- EKS  
 - Jenkins / ArgoCD
 - Prometheus / Grafana
 - ELK
 
+Tool
+- Postman
+- Notion / slack 
 
 ### 전체 구성도
 ![image](https://user-images.githubusercontent.com/33277725/234824704-1773847d-95d7-412d-bc41-497efc3ae342.png)
@@ -41,10 +46,11 @@ resources/application.yaml 파일에 다음 주소를 입력해줘야한다
 - front 링크
 1. 프론트 서버 url
 
-참조 링크
-[gmail](https://velog.io/@tjddus0302/Spring-Boot-%EB%A9%94%EC%9D%BC-%EB%B0%9C%EC%86%A1-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-Gmail)
+참조 링크:  
+[gmail](https://velog.io/@tjddus0302/Spring-Boot-%EB%A9%94%EC%9D%BC-%EB%B0%9C%EC%86%A1-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-Gmail)  
 [redis](https://app.redislabs.com/#/)
-[front]: https://github.com/kwx4957/okim-front
-[back]: https://github.com/kwx4957/okim
-[deploy]: https://github.com/kwx4957/okim-deploy
-[auth]: https://github.com/kwx4957/okim-auth
+
+[front]: https://github.com/kwx4957/okim-front  
+[back]: https://github.com/kwx4957/okim  
+[deploy]: https://github.com/kwx4957/okim-deploy  
+[auth]: https://github.com/kwx4957/okim-auth  
