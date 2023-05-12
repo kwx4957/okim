@@ -28,10 +28,10 @@ Git Commit Convention은 [Git Commit](https://kdjun97.github.io/git-github/commi
 
 
 ## 전체 구성도
-![](./구름TODO/%EC%A0%84%EC%B2%B4%EA%B5%AC%EC%84%B1%EB%8F%84.png)
+![](https://user-images.githubusercontent.com/33277725/237890376-091728d9-d6f1-4c8d-b8c3-5268cdb8bac8.png)
 
 ## 프로젝트 ERD  
-![](./구름TODO/ERD_최종.png)
+![](https://user-images.githubusercontent.com/33277725/237890379-16dcac69-acd8-4df8-8649-18e837a1638d.png)
 
 ## 화면
 ![](https://user-images.githubusercontent.com/33277725/237889985-efc1f410-8e3e-48fa-b53b-ba900ce8fb30.png)|![](https://user-images.githubusercontent.com/33277725/237889994-bb2c8eb9-13ac-4e5a-9dd5-1135281e504d.png)|![](https://user-images.githubusercontent.com/33277725/237889997-c0e9d824-47af-4fe3-814b-96b88a2265c2.png)|![](https://user-images.githubusercontent.com/33277725/237890004-8b3e6e4f-0d12-45f6-af62-40375888aa0e.png)|![](https://user-images.githubusercontent.com/33277725/237890011-a42478fc-042c-45cc-aa50-8c5b08a6eddc.PNG)
