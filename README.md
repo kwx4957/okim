@@ -16,8 +16,7 @@
 - MySQL, Redis
 
 ## 담당 업무
-- 아이디어 기획
-- API설계
+- 아이디어 기획 및 API설계
 - Jenkins, ArgoCD 파이프라인 구현
 - Jenkins, ArgoCD 슬랙 알림 연동
 - 유저 TODO API 구현
