@@ -15,6 +15,15 @@
 - JS, Vue.js  
 - MySQL, Redis
 
+## 담당 업무
+- 아이디어 기획
+- API설계
+- Jenkins, ArgoCD 파이프라인 구현
+- Jenkins, ArgoCD 슬랙 알림 연동
+- 유저 TODO API 구현
+- AWS s3 이미지 업로드(프로필 이미지 업로드) API 구현 
+- Email 인증 API 구현 및 Redis 연동
+
 ### 사용된 레포지토리
 Frontend Repository: https://github.com/kwx4957/okim-front  
 Backend Repository: https://github.com/kwx4957/okim  
