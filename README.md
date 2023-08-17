@@ -1,16 +1,16 @@
 # [구름TODO](https://github.com/kwx4957/okim)
 ## 개요
-구름 수강생들의 학습 내용을 한눈에 알아보기가 힘들다. 서로 다른 플랫폼(노션, 티스토리, 벨로그)에서 기록을 하기 때문이다. 그렇기에 각자 어떤 목표를 가지고 오늘 할 일을 진행했는지 쉽게 알아보게 하며 다른 수강생의 할 일을 보고 다른 수강생들 또한 자신의 학습에 동기를 부여하기 위한 서비스
+구름 수강생들의 학습 내용을 한눈에 알아보기가 힘들다. 서로 다른 플랫폼(노션, 티스토리, 벨로그)에서 기록을 하기 때문이다. 그렇기에 각자 어떤 목표를 가지고 오늘 할 일을 진행했는지 쉽게 알아보게 하며 다른 수강생의 할 일을 보고 다른 수강생들 또한 자신의 학습에 동기 부여를 목적으로 하는 서비스 
 
 ## 개발 환경
-기간: 2023.03.13 ~ 2023.04.11  
-인원: 백엔드 2명, 인프라 2명  
+기간: 2023.03 ~ 2023.04  
+인원: 백엔드 개발자 2명, 인프라 2명  
 사용 기술 및 환경: 
 - AWS EKS, Docker
 - Promethus, Grafana, ELK
-- Jenkins, ArgoCD 
-- SpringBoot 3, Spring Data JPA, Spring Security, QueryDSL 5, Java 17, Junit 5
+- Jenkins, ArgoCD
 - JavaScript, Vue.js  
+- SpringBoot 3, Spring Data JPA, Spring Security, QueryDSL 5, Java 17, Junit 5
 - MySQL, Redis
 
 ## 담당 업무
@@ -46,7 +46,7 @@ Git Commit Convention은 [Git Commit](https://kdjun97.github.io/git-github/commi
 ---|---|
 
 ## 사용 방법
-1. Mysql
+1. MySQL
    1. datasources.primary.url
    2. datasources.replica.url
 2. Redis
